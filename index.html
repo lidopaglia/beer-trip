@@ -1,51 +1,5 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
   <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-      <meta name="description" content="Randy Olson uses machine learning to find the optimal road trip across the U.S.">
-      <meta name="author" content="Randal S. Olson">
-
-      <title>The optimal road trip across the U.S. according to machine learning</title>
-      <style>
-        html, body, #map-canvas {
-          height: 100%;
-          margin: 0px;
-          padding: 0px
-        }
-        #panel {
-          position: absolute;
-          top: 5px;
-          left: 50%;
-          margin-left: -180px;
-          z-index: 5;
-          background-color: #ddd;
-          padding: 10px;
-          border: 1px solid #999;
-        }
-      </style>
-      <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&key=AIzaSyDWk8o--yYxzfQT_0EVAycNx7CsXVRSctg"></script>
-      <script>
-          var routes_list = []
-          var markerOptions = {icon: "http://maps.gstatic.com/mapfiles/markers2/marker.png"};
-          var directionsDisplayOptions = {preserveViewport: true,
-                                          markerOptions: markerOptions};
-          var directionsService = new google.maps.DirectionsService();
-          var map;
-
-          function initialize() {
-            var center = new google.maps.LatLng(39, -96);
-            var mapOptions = {
-              zoom: 5,
-              center: center
-            };
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-            for (i=0; i<routes_list.length; i++) {
-              routes_list[i].setMap(map);
-            }
-=======
-    <html lang="en">
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -68,131 +22,142 @@
             background-color: #ddd;
             padding: 10px;
             border: 1px solid #999;
->>>>>>> cf489fd6a6fec8378143a4b671922958a30c9c0f
           }
+        </style>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&key=AIzaSyDWk8o--yYxzfQT_0EVAycNx7CsXVRSctg"></script>
+        <script>
+            var routes_list = []
+            var markerOptions = {icon: "http://maps.gstatic.com/mapfiles/markers2/marker.png"};
+            var directionsDisplayOptions = {preserveViewport: true,
+                                            markerOptions: markerOptions};
+            var directionsService = new google.maps.DirectionsService();
+            var map;
 
-          function calcRoute(start, end, routes) {
-
-            var directionsDisplay = new google.maps.DirectionsRenderer(directionsDisplayOptions);
-
-            var waypts = [];
-            for (var i = 0; i < routes.length; i++) {
-              waypts.push({
-                location:routes[i],
-                stopover:true});
+            function initialize() {
+              var center = new google.maps.LatLng(39, -96);
+              var mapOptions = {
+                zoom: 5,
+                center: center
+              };
+              map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+              for (i=0; i<routes_list.length; i++) {
+                routes_list[i].setMap(map); 
               }
+            }
 
-            var request = {
-                origin: start,
-                destination: end,
-                waypoints: waypts,
-                optimizeWaypoints: false,
-                travelMode: google.maps.TravelMode.DRIVING
-            };
+            function calcRoute(start, end, routes) {
+              
+              var directionsDisplay = new google.maps.DirectionsRenderer(directionsDisplayOptions);
 
-            directionsService.route(request, function(response, status) {
-              if (status == google.maps.DirectionsStatus.OK) {
-                  directionsDisplay.setDirections(response);
-              }
-            });
+              var waypts = [];
+              for (var i = 0; i < routes.length; i++) {
+                waypts.push({
+                  location:routes[i],
+                  stopover:true});
+                }
+              
+              var request = {
+                  origin: start,
+                  destination: end,
+                  waypoints: waypts,
+                  optimizeWaypoints: false,
+                  travelMode: google.maps.TravelMode.DRIVING
+              };
 
-            routes_list.push(directionsDisplay);
-          }
+              directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);      
+                }
+              });
 
-          function createRoutes(route) {
-              // Google's free map API is limited to 10 waypoints so need to break into batches
-              route.push(route[0]);
-              var subset = 0;
-              while (subset < route.length) {
-                  var waypointSubset = route.slice(subset, subset + 10);
+              routes_list.push(directionsDisplay);
+            }
 
-                  var startPoint = waypointSubset[0];
-                  var midPoints = waypointSubset.slice(1, waypointSubset.length - 1);
-                  var endPoint = waypointSubset[waypointSubset.length - 1];
+            function createRoutes(route) {
+                // Google's free map API is limited to 10 waypoints so need to break into batches
+                route.push(route[0]);
+                var subset = 0;
+                while (subset < route.length) {
+                    var waypointSubset = route.slice(subset, subset + 10);
 
-                  calcRoute(startPoint, endPoint, midPoints);
+                    var startPoint = waypointSubset[0];
+                    var midPoints = waypointSubset.slice(1, waypointSubset.length - 1);
+                    var endPoint = waypointSubset[waypointSubset.length - 1];
 
-                  subset += 9;
-              }
-          }
-  			optimal_route = ['Maine Beer Company, Freeport, ME 04032',
-                         'Allagash Brewing Company, 50 Industrial Way, Portland, ME 04103',
-                         'Hill Farmstead Brewery, 403 Hill Rd, Greensboro Bend, VT 05842',
-                         'Brewery Ommegang, 656 Co Hwy 33, Cooperstown, NY 13326',
-                         'Voodoo Brewing Co., 215 Arch St, Meadville, PA 16335',
-                         'Hoppin Frog Brewery, 1680 E Waterloo Rd, Akron, OH 44306',
-                         'Jackie O\'s Pub & Brewery, 22-24 W Union St, Athens, OH 45701,
-                         'Schramm\'s Mead, 327 W Nine Mile Rd, Ferndale, MI 48220',
-                         'Founders Brewing Company, 235 Grandville Ave SW, Grand Rapids, MI 49503',
-                         'Bell\'s Brewery, 8938 Krum Ave, Galesburg, MI 49053',
-                         'Three Floyds Brewing Company, 9750 Indiana Pkwy, Munster, IN 46321',
-                         'Goose Island Beer Company, 1800 W Fulton St, Chicago, IL 60612',
-                         'Pipeworks Brewing Company, 3912 W McLean Ave, Chicago, IL 60647',
-                         'Half Acre Beer Company, 4257 N Lincoln Ave, Chicago, IL 60618',
-                         'Pips Meadery, 39452 N Lewis Ave, Beach Park, IL 60099',
-                         'New Glarus Brewing Company, 2400 WI-69, New Glarus, WI 53574',
-                         'Toppling Goliath, 1600 Prosperity Rd, Decorah, IA 52101',
-                         'Surly Brewing Company, 520 Malcolm Ave SE, Minneapolis, MN 55414',
-                         'Fremont Brewing Company, 1050 N 34th St, Seattle, WA 98103',
-                         'Hair of the Dog Brewing Company, 61 SE Yamhill St, Portland, OR 97214',
-                         'De Garde Brewing, 114 Ivy Ave, Tillamook, OR 97141',
-                         'Deschutes Brewery, 901 SW Simpson Ave, Bend, OR 97702',
-                         'Sierra Nevada Brewing Company, 1075 E 20th St, Chico, CA 95928',
-                         'Russian River Brewing, 725 4th St, Santa Rosa, CA 95404',
-                         'Lagunitas Brewing Company, 1280 N McDowell Blvd, Petaluma, CA 94954',
-                         'Cellarmaker Brewing Company, 1150 Howard St, San Francisco, CA 94103',
-                         'Almanac Beer Company, 2704 24th St, San Francisco, CA 94110',
-                         'Sante Adairius Rustic Ales, 103 Kennedy Dr, Capitola, CA 95010',
-                         'Firestone Walker Brewing, 3993, 1400 Ramada Dr, Paso Robles, CA 93446',
-                         'The Bruery, 717 Dunn Way, Placentia, CA 92870',
-                         'Bottle Logic Brewing, 1072 N Armando St, Anaheim, CA 92806',
-                         'Port Brewing Company, 155 Mata Way #104, San Marcos, CA 92069',
-                         'Stone Brewing, 1999 Citracado Parkway, Escondido, CA 92029',
-                         'Abnormal Beer Company, 16990 Via Tazon, San Diego, CA, 92127',
-                         'Mikkeller Brewing San Diego, 9366 Cabot Dr, San Diego, CA 92126',
-                         'AleSmith Brewing Company, 9990 AleSmith Ct, San Diego, CA 92126',
-                         'Ballast Point Brewing Company, 9045 Carroll Way, San Diego, CA 92121',
-                         'Modern Times Beer, 3725 Greenwood St, San Diego, CA 92110',
-                         'Alpine Beer Company, 2363 Alpine Blvd, Alpine, CA 91901',
-                         'Superstition Meadery, 120 W Gurley St, Prescott, AZ 86301',
-                         'Casey Brewing and Blending, 3421 Grand Ave, Glenwood Springs, CO 81601',
-                         'Avery Brewing Company, 4910 Nautilus Ct N, Boulder, CO 80301',
-                         'Crooked Stave Artisan Beer Project, 3350 Brighton Blvd, Denver, CO 80216',
-                         'Prairie Artisan Ales, 223 N Main St, Tulsa, OK 74103',
-                         'Boulevard Brewing Company, 2501 Southwest Blvd, Kansas City, MO 64108',
-                         'Side Project Brewing, 7458 Manchester Rd, Maplewood, MO 63143',
-                         'Perennial Artisan Ales, 8125 Michigan Ave, St. Louis, MO 63111',
-                         'Angry Chair Brewing, 6401 N Florida Ave, Tampa, FL 33604',
-                         'Cigar City Brewing, 3924 W Spruce St, Tampa, FL 33607',
-                         'Cycle Brewing, Sai534 Central Ave, St. Petersburg, FL 33701',
-                         'J. Wakefield Brewing, 120 NW 24th St, Miami, FL 33127',
-                         'Funky Buddha Brewery, 1201 NE 38th St, Oakland Park, FL 33334',
-                         'Westbrook Brewing, 510 Ridge Rd, Mt Pleasant, SC 29464',
-                         'Dogfish Head Brewery, 6 Cannery Village Center, Milton, DE 19968',
-                         'Victory Brewing Company, 420 Acorn Ln, Downingtown, PA 19335',
-                         'Tired Hands Brewing Company, 30 Cricket Terrace, Ardmore, PA 19003',
-                         'Other Half Brewing, 195 Centre St, Brooklyn, NY 11231',
-                         'Tree House Brewing Company, 129 Sturbridge Rd, Charlton, MA 01507',
-                         'Jack\'s Abby Brewing, 100 Clinton St, Framingham, MA 01702',
-                         'Trillium Brewing Company, 369 Congress St, Boston, MA 02210',
-                         'Maine Beer Company, 525 US-1, Freeport, ME 04032']
+                    calcRoute(startPoint, endPoint, midPoints);
 
-          createRoutes(optimal_route);
+                    subset += 9;
+                }
+            }
+    			optimal_route = ['Maine Beer Company, Freeport, ME 04032',
+                           'Allagash Brewing Company, 50 Industrial Way, Portland, ME 04103',
+                           'Hill Farmstead Brewery, 403 Hill Rd, Greensboro Bend, VT 05842',
+                           'Brewery Ommegang, 656 Co Hwy 33, Cooperstown, NY 13326',
+                           'Voodoo Brewing Co., 215 Arch St, Meadville, PA 16335',
+                           'Hoppin Frog Brewery, 1680 E Waterloo Rd, Akron, OH 44306",
+                           "Jackie O's Pub & Brewery, 22-24 W Union St, Athens, OH 45701",
+                           "Schramm's Mead, 327 W Nine Mile Rd, Ferndale, MI 48220",
+                           'Founders Brewing Company, 235 Grandville Ave SW, Grand Rapids, MI 49503',
+                           "Bell's Brewery, 8938 Krum Ave, Galesburg, MI 49053",
+                           'Three Floyds Brewing Company, 9750 Indiana Pkwy, Munster, IN 46321',
+                           'Goose Island Beer Company, 1800 W Fulton St, Chicago, IL 60612',
+                           'Pipeworks Brewing Company, 3912 W McLean Ave, Chicago, IL 60647',
+                           'Half Acre Beer Company, 4257 N Lincoln Ave, Chicago, IL 60618',
+                           'Pips Meadery, 39452 N Lewis Ave, Beach Park, IL 60099',
+                           'New Glarus Brewing Company, 2400 WI-69, New Glarus, WI 53574',
+                           'Toppling Goliath, 1600 Prosperity Rd, Decorah, IA 52101',
+                           'Surly Brewing Company, 520 Malcolm Ave SE, Minneapolis, MN 55414',
+                           'Fremont Brewing Company, 1050 N 34th St, Seattle, WA 98103',
+                           'Hair of the Dog Brewing Company, 61 SE Yamhill St, Portland, OR 97214',
+                           'De Garde Brewing, 114 Ivy Ave, Tillamook, OR 97141',
+                           'Deschutes Brewery, 901 SW Simpson Ave, Bend, OR 97702',
+                           'Sierra Nevada Brewing Company, 1075 E 20th St, Chico, CA 95928',
+                           'Russian River Brewing, 725 4th St, Santa Rosa, CA 95404',
+                           'Lagunitas Brewing Company, 1280 N McDowell Blvd, Petaluma, CA 94954',
+                           'Cellarmaker Brewing Company, 1150 Howard St, San Francisco, CA 94103',
+                           'Almanac Beer Company, 2704 24th St, San Francisco, CA 94110',
+                           'Sante Adairius Rustic Ales, 103 Kennedy Dr, Capitola, CA 95010',
+                           'Firestone Walker Brewing, 3993, 1400 Ramada Dr, Paso Robles, CA 93446',
+                           'The Bruery, 717 Dunn Way, Placentia, CA 92870',
+                           'Bottle Logic Brewing, 1072 N Armando St, Anaheim, CA 92806',
+                           'Port Brewing Company, 155 Mata Way #104, San Marcos, CA 92069',
+                           'Stone Brewing, 1999 Citracado Parkway, Escondido, CA 92029',
+                           'Abnormal Beer Company, 16990 Via Tazon, San Diego, CA, 92127',
+                           'Mikkeller Brewing San Diego, 9366 Cabot Dr, San Diego, CA 92126',
+                           'AleSmith Brewing Company, 9990 AleSmith Ct, San Diego, CA 92126',
+                           'Ballast Point Brewing Company, 9045 Carroll Way, San Diego, CA 92121',
+                           'Modern Times Beer, 3725 Greenwood St, San Diego, CA 92110',
+                           'Alpine Beer Company, 2363 Alpine Blvd, Alpine, CA 91901',
+                           'Superstition Meadery, 120 W Gurley St, Prescott, AZ 86301',
+                           'Casey Brewing and Blending, 3421 Grand Ave, Glenwood Springs, CO 81601',
+                           'Avery Brewing Company, 4910 Nautilus Ct N, Boulder, CO 80301',
+                           'Crooked Stave Artisan Beer Project, 3350 Brighton Blvd, Denver, CO 80216',
+                           'Prairie Artisan Ales, 223 N Main St, Tulsa, OK 74103',
+                           'Boulevard Brewing Company, 2501 Southwest Blvd, Kansas City, MO 64108',
+                           'Side Project Brewing, 7458 Manchester Rd, Maplewood, MO 63143',
+                           'Perennial Artisan Ales, 8125 Michigan Ave, St. Louis, MO 63111',
+                           'Angry Chair Brewing, 6401 N Florida Ave, Tampa, FL 33604',
+                           'Cigar City Brewing, 3924 W Spruce St, Tampa, FL 33607',
+                           'Cycle Brewing, Sai534 Central Ave, St. Petersburg, FL 33701',
+                           'J. Wakefield Brewing, 120 NW 24th St, Miami, FL 33127',
+                           'Funky Buddha Brewery, 1201 NE 38th St, Oakland Park, FL 33334',
+                           'Westbrook Brewing, 510 Ridge Rd, Mt Pleasant, SC 29464',
+                           'Dogfish Head Brewery, 6 Cannery Village Center, Milton, DE 19968',
+                           'Victory Brewing Company, 420 Acorn Ln, Downingtown, PA 19335',
+                           'Tired Hands Brewing Company, 30 Cricket Terrace, Ardmore, PA 19003',
+                           'Other Half Brewing, 195 Centre St, Brooklyn, NY 11231',
+                           'Tree House Brewing Company, 129 Sturbridge Rd, Charlton, MA 01507',
+                           "Jack's Abby Brewing, 100 Clinton St, Framingham, MA 01702",
+                           'Trillium Brewing Company, 369 Congress St, Boston, MA 02210',
+                           'Maine Beer Company, 525 US-1, Freeport, ME 04032']
+            
+            createRoutes(optimal_route);
 
-          google.maps.event.addDomListener(window, 'load', initialize);
+            google.maps.event.addDomListener(window, 'load', initialize);
 
-<<<<<<< HEAD
-      </script>
-    </head>
-    <body>
-      <div id="map-canvas"></div>
-    </body>
-</html>
-=======
         </script>
       </head>
       <body>
         <div id="map-canvas"></div>
       </body>
 </html>
->>>>>>> cf489fd6a6fec8378143a4b671922958a30c9c0f

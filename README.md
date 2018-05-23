@@ -76,47 +76,47 @@ Dogfish Head Brewery, DE
 
 Count | Name
 -----: | ----
-   64 | USA
-    8 | England
-    6 | Belgium
-    4 | Canada
-    4 | Denmark
-    3 | Netherlands
-    3 | Sweden
-    2 | Norway
-    2 | Poland
-    2 | Scotland
-    1 | Estonia
-    1 | Greece
+64 | USA
+8 | England
+6 | Belgium
+4 | Canada
+4 | Denmark
+3 | Netherlands
+3 | Sweden
+2 | Norway
+2 | Poland
+2 | Scotland
+1 | Estonia
+1 | Greece
 
 ### Top brewers by state in the USA
 
 Count | Name
 -----: | ----
-   17 | California
-    5 | Florida
-    4 | Illinois
-    4 | Michigan
-    3 | Massachusetts
-    3 | Colorado
-    3 | Pennsylvania
-    3 | Oregon
-    3 | New York
-    3 | Missouri
-    2 | Maine
-    2 | Ohio
-    1 | Vermont
-    1 | South Carolina
-    1 | Oklahoma
-    1 | Alaska
-    1 | Washington
-    1 | Maryland
-    1 | Iowa
-    1 | Indiana
-    1 | Delaware
-    1 | Arizona
-    1 | Minnesota
-    1 | Wisconsin
+17 | California
+5 | Florida
+4 | Illinois
+4 | Michigan
+3 | Massachusetts
+3 | Colorado
+3 | Pennsylvania
+3 | Oregon
+3 | New York
+3 | Missouri
+2 | Maine
+2 | Ohio
+1 | Vermont
+1 | South Carolina
+1 | Oklahoma
+1 | Alaska
+1 | Washington
+1 | Maryland
+1 | Iowa
+1 | Indiana
+1 | Delaware
+1 | Arizona
+1 | Minnesota
+1 | Wisconsin
 
 
 

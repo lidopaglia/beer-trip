@@ -1,13 +1,18 @@
-# A road trip of the top breweries in 2017 routed algorithmically.
+# A Road Trip of the Top Breweries in 2017 Routed Algorithmically.
 
-The following work follows in the footsteps of [Nathan Yau][yau] from his article, "[Top Brewery Road Trip, Routed Algorithmically][flowingdata]" and uses a Python script by [Randal Olson][olson] to use [genetic algorithms][genetic-algo] and the [Google Maps API][google] to plot the most efficient road trip between breweries.
+This work follows in the footsteps of [Nathan Yau][yau] from his article, "[Top Brewery Road Trip, Routed Algorithmically][flowingdata]" and is updated with the latest data for 2017's top brewers according to RateBeer.
 
+The output here is based on a Python script created by [Randal Olson][olson] which uses [genetic algorithms][genetic-algo] and the [Google Maps API][google] to plot the most efficient road trip for visiting the top breweries in the conterminous United States.
 
-## Additional Notes
+The data is based on [RateBeer's 2017 Top Brewers in the World][top-brewers] data set, published on January 30th 2018. Like Nathan, I removed Evil Twin as they remain a gypsy brewery and Anchorage Brewing Company in Alaska because it is "a bit of a hike". I also learned that Stillwater Artisanal is "permanently closed" according to Google Maps so that was removed as well for the time being until its status can be confirmed.
 
-The data is based on [RateBeer's 2017 Top Brewers in the World][top-brewers] data set, published on January 30th 2018. Like Nathan I removed Evil Twin as they remain a gypsy brewery and Anchorage Brewing Company in Alaska because it is a bit of a hike. I also learned that Stillwater Artisanal is permanently closed so that was removed as well.
+The trip includes **11,025 miles** and **60 breweries**.
 
-### The most efficient route calculated by Randal's script
+![screenshot 2018-05-23 17 01 44](https://user-images.githubusercontent.com/1696777/40454130-8be89c6e-5eb5-11e8-96f4-aa54482df266.png)
+
+*Click [here][map] for an interactive map.*
+
+### The Most Efficient Route
 
 ```
 Victory Brewing Company, PA
@@ -127,3 +132,4 @@ Count | Name
 [top-brewers]:https://www.ratebeer.com/ratebeerbest/BestBrewers-World2018.asp]
 [google]:https://cloud.google.com/maps-platform/
 [genetic-algo]:https://en.wikipedia.org/wiki/Genetic_algorithm
+[map]:https://paglia.org/beer-trip
